@@ -1,0 +1,44 @@
+version: '1.0'
+
+services:
+  # frontend:
+  #   build:
+  #     context: ./Frontend
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     BACKEND_URL: http://localhost:6969}
+
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - 6969:6969
+    environment:
+      NODE_ENV: production
+      DB_HOST: db
+      DB_NAME: counter
+      DB_USER: postgres
+      DB_PASSWORD: password
+      PASSPHRASE: secret
+    depends_on:
+      - mongo-express
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
