@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const db = require('./connection.js');
 
 const app = express();
 
@@ -13,27 +14,25 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to ArcadeFortune application!!!" });
+const MongoClient = require('mongodb').MongoClient;
+const connectionString = process.env.ATLAS_URI || "";
+async function connectToClient() {
+  const client = await new MongoClient(connectionString).connect();
+  const db = client.db('todolist');
+  return db;
+}
+
+app.get("/", async (req, res) => {
+  const db = await connectToClient();
+  console.log(db)
+  // let collection = await db.collection("posts");
+  // let results = await collection.find({}).toArray();
+  let results = 'test'
+  res.json({ message: "Welcome to ArcadeFortune application!!!!" + results});
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}...`);
 });
-
-// import { MongoClient } from "mongodb";
-
-// const connectionString = process.env.ATLAS_URI || "";
-
-// const client = new MongoClient(connectionString);
-
-// let conn;
-// try {
-//   conn = await client.connect();
-// } catch(e) {
-//   console.error(e);
-// }
-
-// let db = conn.db("sample_training");
-
-// export default db;
