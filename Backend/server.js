@@ -1,9 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const db = require('./connection.js');
+const withDatabase = require("./accessDB")
 
 const app = express();
-
 const PORT = 6969;
 
 var corsOptions = {
@@ -14,24 +13,21 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const MongoClient = require('mongodb').MongoClient;
-const connectionString = process.env.ATLAS_URI || "";
-async function connectToClient() {
-  const client = await new MongoClient(connectionString).connect();
-  const db = client.db('todolist');
-  return db;
-}
-
 app.get("/", async (req, res) => {
-  const db = await connectToClient();
-  console.log(db)
-  // let collection = await db.collection("posts");
-  // let results = await collection.find({}).toArray();
-  let results = 'test'
-  res.json({ message: "Welcome to ArcadeFortune application!!!!" + results});
+  console.log('in endpoint')
+  withDatabase(async (coll) => {
+    console.log('in function')
+    const res = await coll.find(); // no query
+    for await (const doc of res) {
+      console.log(doc);
+    }
+    const customIdDocument = { _id: "3", key: "cleanign" };
+    await coll.insertOne(customIdDocument);
+    console.log(coll, 'htset')
+  })
+  
+  res.json({ message: "Welcome to ArcadeFortune application!!!!\nWatch Date A Live"});
 });
-
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}...`);

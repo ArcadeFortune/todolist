@@ -1,16 +1,17 @@
+const { MongoClient, ServerApiVersion } = require("mongodb");
+const connectionString = process.env.ATLAS_URI || "";
 
-
-
-// // const client = new MongoClient(connectionString);
-// const MongoClient = require('mongodb').MongoClient;
-// const connectionString = process.env.ATLAS_URI || "";
-// async function connectToClient() {
-//   const client = await new MongoClient(connectionString).connect();
-//   const db = client.db('todolist');
-//   return db;
+// async function connectToDB() {
+//   const client = await new MongoClient(connectionString)
+//   return client
 // }
 
-// connectToClient().catch(console.error);
-// console.log(db, 'fakjdslfja;ksfd')
+const client = new MongoClient(connectionString, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+});
 
-// module.exports = db
+module.exports = client;
