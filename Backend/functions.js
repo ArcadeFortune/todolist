@@ -1,15 +1,17 @@
 const withDatabase = require("./accessDB");
 
-async function ls() {
+async function ls(taskId) {
+  if (taskId) parseInt(taskId);
+
   let result = [];
   await withDatabase(async (coll) => {
-    const find = await coll.find().sort({ _id: 1 });
+    const find = await coll.find(taskId ? { _id: taskId } : {})
+      .sort({ _id: 1 });
     for await (const doc of find) {
-      console.log(doc);
       result.push(doc);
     }
   });
-  return result
+  return result;
 }
 
 module.exports = {

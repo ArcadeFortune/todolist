@@ -1,4 +1,4 @@
-const { a, ls } = require("./functions")
+const tasks = require("./functions")
 const express = require("express");
 const cors = require("cors");
 
@@ -29,8 +29,15 @@ app.get("/", async (req, res) => {
   res.json({ message: "Welcome to ArcadeFortune application!!!!\nWatch Date A Live"});
 });
 
+// get tasks
 app.get('/tasks', async (req, res) => {
-  res.json(await ls())
+  res.json(await tasks.ls())
+})
+
+// get task by ID
+app.get('/tasks/:id', async (req, res) => {
+  const taskId = req.params.id
+  res.json(await tasks.ls(taskId))
 })
 
 app.listen(PORT, () => {
