@@ -1,6 +1,6 @@
+const { a, ls } = require("./functions")
 const express = require("express");
 const cors = require("cors");
-const withDatabase = require("./accessDB")
 
 const app = express();
 const PORT = 6969;
@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", async (req, res) => {
-  console.log('in endpoint')
+  console.log('Hello World')
   // await withDatabase(async (coll) => {
   //   console.log('in function')
   //   const res = await coll.find();
@@ -30,18 +30,8 @@ app.get("/", async (req, res) => {
 });
 
 app.get('/tasks', async (req, res) => {
-  let result = []
-  await withDatabase(async (coll) => {
-    const find = await coll.find().sort({ _id: 1 });
-    for await (const doc of find) {
-      console.log(doc)
-      result.push(doc)
-    }
-  })
-  res.json(result)
+  res.json(await ls())
 })
-
-
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}...`);

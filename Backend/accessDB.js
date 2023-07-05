@@ -5,12 +5,11 @@ async function withDatabase(callback) {
     await client.connect();
     const db = await client.db("todolist");
     const coll = db.collection("tasks");
-    
-    await callback(coll)
 
+    await callback(coll);
   } finally {
     await client.close();
   }
 }
 
-module.exports = withDatabase
+module.exports = withDatabase;
