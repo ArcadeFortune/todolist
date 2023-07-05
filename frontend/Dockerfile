@@ -1,41 +1,19 @@
-# syntax=docker/dockerfile:1.4
+# Dockerfile
+FROM    node:17-alpine
 
-# Create image based on the official Node image from dockerhub
-FROM node:lts-buster AS development
+# Install the app
+WORKDIR /app
+COPY    package.json .
+RUN     npm install --silent
 
-# Create app directory
-WORKDIR /usr/src/app
+# Build the app
+COPY    . .
+EXPOSE  3000
+# ENV     REACT_APP_BACKEND_URL=http://localhost:8000
+CMD     ["npm", "start"]
+# RUN     npm run-script build
 
-# Copy dependency definitions
-COPY package.json /usr/src/app
-COPY package-lock.json /usr/src/app
-
-# Install dependecies
-#RUN npm set progress=false \
-#    && npm config set depth 0 \
-#    && npm i install
-RUN npm ci
-
-# Get all the code needed to run the app
-COPY . /usr/src/app
-
-# Expose the port the app runs in
-EXPOSE 3000
-
-# Serve the app
-CMD ["npm", "start"]
-
-FROM development as dev-envs
-RUN <<EOF
-apt-get update
-apt-get install -y --no-install-recommends git
-EOF
-
-RUN <<EOF
-useradd -s /bin/bash -m vscode
-groupadd docker
-usermod -aG docker vscode
-EOF
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
-CMD [ "npm", "start" ]
+# # Create nginx server and copy build there
+# FROM    nginx:1.19-alpine
+# COPY    --from=build-step /app/build /usr/share/nginx/html
+# COPY    ./docker/docker-entrypoint.sh /docker-entrypoint.sh

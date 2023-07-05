@@ -1,24 +1,27 @@
-version: '1.0'
+version: '3.8'
 
 services:
   frontend:
-    build:
-      context: frontend
-      dockerfile: Dockerfile
-      target: development
+    build: ./frontend
+    container_name: frontend
     ports:
       - 3000:3000
-    stdin_open: true
     volumes:
-      - ./frontend:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./frontend/src:/app/src
     environment:
-      BACKEND_URL: http://localhost:6969
-    restart: always
+      REACT_APP_BACKEND_URL: "http://localhost:6969"
+      WATCHPACK_POLLING: true
+    # env_file:
+    #   - ./.env
+
+    stdin_open: true
+    tty: true
+
+    # restart: always
     # networks:
       # - react-express
-    depends_on:
-      - backend
+    # depends_on:
+    #   - backend
 
 
   backend:
