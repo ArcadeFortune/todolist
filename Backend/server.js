@@ -6,7 +6,7 @@ const app = express();
 const PORT = 6969;
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: process.env.FRONTEND_URL,
 };
 
 app.use(cors(corsOptions));
