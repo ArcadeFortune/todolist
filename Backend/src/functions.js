@@ -4,7 +4,6 @@ async function findNextTask() {
   let collectionSize = 0;
   await withDatabase(async (coll) => {
     collectionSize = await coll.countDocuments();
-    console.log(`Size of ${coll} collection: ${collectionSize}`);
   });
   return collectionSize + 1;
 }

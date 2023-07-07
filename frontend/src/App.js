@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="Main">
       <div className="head">
-        <button>adfs</button>
+        <Button type={'list'}></Button>
       </div>
       <div className="body">
         <div className="todo">
