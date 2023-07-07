@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import "../Styles/textfield.css";
+import add from "../functions/add.js";
+import "../Styles/components.css";
 
-function Textfield() {
-  const [inputValue, setInputValue] = useState("");
+function Textfield({onInputValueChange}) {
 
   const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+    onInputValueChange(event.target.value)
   };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      alert("You typed: " + inputValue);
+      add(event.target.value);
     }
   };
 
@@ -18,7 +18,7 @@ function Textfield() {
     <input
       className="textfield"
       type="text"
-      value={inputValue}
+      placeholder="New Task"
       onChange={handleInputChange}
       onKeyPress={handleKeyPress}
     />

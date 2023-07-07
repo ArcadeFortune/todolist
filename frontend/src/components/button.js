@@ -1,7 +1,8 @@
-export default function Button(type) {
+import add from '../functions/add.js'
+export default function Button({type, inputValue}) {
   if (type === "add")  return (
     <div className="button">
-      <button className="button" onClick={() => {alert('adfs')}}>Click Me!</button>
+      <button className={type} onClick={() => {add(inputValue)}}>Add</button>
     </div>
   );
   return (
