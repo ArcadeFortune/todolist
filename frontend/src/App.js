@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "./components/button";
 import Textfield from "./components/textfield";
+import Todo from "./components/todo";
 import logo from "./logo.svg";
 import "./Styles/App.css";
 
@@ -23,7 +24,7 @@ function App() {
         </div>
 
         <div className="todo-list">
-
+          <Todo content={'test'}></Todo>
         </div>
 
         <div className="todo-background">

@@ -8,9 +8,11 @@ export default function Button({type, inputValue}) {
   if (type === "list")  return (
       <button className={type} onClick={() => {list()}}>List</button>
   );
+  
+  if (type === "")  return (
+    <div>something went wrong, the button type is unknown</div>
+  );
   return (
-    <button>
-      test
-    </button>
+    <div>something went wrong, this button does not exist</div>
   )
 }

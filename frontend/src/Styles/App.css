@@ -41,6 +41,15 @@
   justify-content: center;
 }
 
+/* .todo-list {
+  width: 100%;
+  height: 100%;
+  display: absolute;
+  flex-direction: column;
+  align-items: center;
+  background-color:red
+} */
+
 .todo-background {
   width: 100%;
   height: 100%;
