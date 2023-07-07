@@ -1,15 +1,12 @@
 const withDatabase = require("./accessDB");
 
 async function findNextTask() {
-  let result = [];
+  let collectionSize = 0;
   await withDatabase(async (coll) => {
-    const find = await coll.find({}).sort({ _id: 1 }).limit(1);
-    for await (const doc of find) {
-      result.push(doc);
-    }
+    collectionSize = await coll.countDocuments();
+    console.log(`Size of ${coll} collection: ${collectionSize}`);
   });
-  if (result.toString() === "") return 1;
-  return result;
+  return collectionSize + 1;
 }
 
 async function ls(taskId) {
@@ -17,7 +14,8 @@ async function ls(taskId) {
 
   let result = [];
   await withDatabase(async (coll) => {
-    const find = await coll.find(taskId ? { _id: taskId } : {})
+    const find = await coll
+      .find(taskId ? { _id: taskId } : {})
       .sort({ _id: 1 });
     for await (const doc of find) {
       result.push(doc);
@@ -26,7 +24,19 @@ async function ls(taskId) {
   return result;
 }
 
+async function mk(task, id) {
+  const newTask = {
+    _id: id,
+    task: task,
+  };
+  await withDatabase(async (coll) => {
+    await coll.insertOne(newTask);
+  });
+  return newTask;
+}
+
 module.exports = {
   ls,
-  findNextTask
+  findNextTask,
+  mk,
 };

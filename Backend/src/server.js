@@ -47,7 +47,7 @@ app.get('/tasks/:id', async (req, res) => {
 
 // get task by ID
 app.post('/tasks', async (req, res) => {
-  res.json(req.body)
+  res.json(await tasks.mk(req.body.task, req.body._id))
 })
 
 app.listen(PORT, () => {
