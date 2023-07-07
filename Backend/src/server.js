@@ -26,8 +26,13 @@ app.get("/", async (req, res) => {
   //   console.log(coll, 'htset')
   // })
   
-  res.json({ message: "Welcome to ArcadeFortune application!!!!\nWatch Date A Live"});
+  res.json({ message: "Welcome to ArcadeFortune application!!!\nWatch Date A Live"});
 });
+
+// get available tasks
+app.get('/available_tasks', async (req, res) => {
+  res.json(await tasks.findNextTask())
+})
 
 // get tasks
 app.get('/tasks', async (req, res) => {
@@ -38,6 +43,11 @@ app.get('/tasks', async (req, res) => {
 app.get('/tasks/:id', async (req, res) => {
   const taskId = req.params.id
   res.json(await tasks.ls(taskId))
+})
+
+// get task by ID
+app.post('/tasks', async (req, res) => {
+  res.json(req.body)
 })
 
 app.listen(PORT, () => {

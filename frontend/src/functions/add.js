@@ -1,30 +1,29 @@
-export default function add(task) {
+export default async function add(task) {
   const url = process.env.REACT_APP_BACKEND_URL
   if (task === "") return;
-  console.log(task);
+  const newTask = {
+    _id: `${await fetch(`${url}/available_tasks`).then(res => res.json())}`,
+    task: task,
+  }
 
-  async function addTask(task) {
-    try {
-      const response = await fetch(`${url}/tasks`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // body: JSON.stringify(formData),
-      });
+  try {
+    const response = await fetch(`${url}/tasks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTask),
+    });
 
-      if (response.ok) {  
-        // Handle successful response
-        console.log("POST request successful", await response.json());
-      } else {
-        // Handle error response
-        console.error("POST request failed");
-      }
-    } catch (error) {
-      // Handle network error
-      console.error("Network error", error);
+    if (response.ok) {  
+      // Handle successful response
+      console.log("POST request successful", await response.json());
+    } else {
+      // Handle error response
+      console.error("POST request failed");
     }
-  };
-
-  addTask(task);
+  } catch (error) {
+    // Handle network error
+    console.error("Network error", error);
+  }
 }
