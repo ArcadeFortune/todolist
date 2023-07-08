@@ -6,7 +6,7 @@ export default function Button({type, inputValue}) {
       <button className={type} onClick={() => {add(inputValue)}}>Add</button>
   );
   if (type === "list")  return (
-      <button className={type} onClick={() => {list()}}>List</button>
+      <button className={type} onClick={async () => {list()}}>List</button>
   );
   
   if (type === "")  return (

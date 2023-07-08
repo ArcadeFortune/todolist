@@ -8,11 +8,15 @@ export default async function list() {
       },
     });
     if (response.ok) {  
-      console.log(await response.json());
+      const data = await response.json()
+      console.log(data)
+      return data
     } else {
       console.error("POST request failed");
+      return 'there is an error'
     }
   } catch (error) {
     console.error("Network error", error);
+    return 'there is a network error'
   }
 }

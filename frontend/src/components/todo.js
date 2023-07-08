@@ -1,8 +1,8 @@
-export default function Todo({content}) {
+export default function Todo({task}) {
 
   return (
     <div className="todo-item"> 
-      {content}
+      {task}
     </div>
   )
 }

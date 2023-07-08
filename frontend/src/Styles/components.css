@@ -1,10 +1,10 @@
 .textfield {
-  width: 70%;
+  width: 30%;
   height: 1.5em;
   padding: 0.5em;
   font-size: 1em;
   border: none;
-  background-color: white;  
+  background-color: white;
   border-radius: 10px 0 0 10px;
 }
 
@@ -21,10 +21,28 @@
   background-color: #61dafb;
   color: #282c34;
   cursor: pointer;
-  border: 1px solid #9ccb9e;  
+  border: 1px solid #ffffff;  
 }
 
 .add:hover {
   background-color: #04c7a3;
   text-shadow: 0px 1px 10px white;
+}
+
+.todo-item {
+  z-index: 2;
+  width: 20%;
+  height: 1.5em;
+  padding: 0.5em;
+  background-color: #ffffff;
+  color: #282c34;
+  cursor: pointer;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px 0px 0px 10px;
+  margin: 0.3%;  
+  transition: transform 0.3s;
+}
+
+.todo-item:hover {
+  transform: scale(1.1);
 }
