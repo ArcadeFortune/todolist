@@ -25,9 +25,9 @@ function App() {
     fetchData();
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="Main">
@@ -41,8 +41,8 @@ function App() {
         </div>
 
         <div className="todo-list">
-          {!isLoading && items.map((item, index) => (
-            <Todo key={index} task={item.task}></Todo>
+          {!isLoading && items.map((item) => (
+            <Todo key={item._id} task={item.task}></Todo>
           ))}
         </div>
         <div className="todo-background">
