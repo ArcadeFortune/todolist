@@ -1,4 +1,4 @@
-export default async function list() {  
+export default async function list() {
   const url = process.env.REACT_APP_BACKEND_URL
   try {
     const response = await fetch(`${url}/tasks`, {

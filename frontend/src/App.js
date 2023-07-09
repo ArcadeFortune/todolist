@@ -50,7 +50,7 @@ function App() {
 
         <div className="todo-list">
           {!isLoading &&
-            items.map((item) => <Todo key={item._id} task={item.task}></Todo>)}
+            items.map((item) => <Todo key={item._id} task={item}></Todo>)}
         </div>
         <div className="todo-background">
           <img src={logo} className="logo" alt="logo" />

@@ -34,8 +34,17 @@ async function mk(task, id) {
   return newTask;
 }
 
+async function rm(id) {
+  let deletedTask = await ls(id)
+  await withDatabase(async (coll) => {
+    await coll.deleteOne({ _id: id });
+  });
+  return deletedTask;
+}
+
 module.exports = {
   ls,
   findNextTask,
   mk,
+  rm,
 };

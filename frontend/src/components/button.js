@@ -10,7 +10,7 @@ export default function Button({type, inputValue}) {
       <button className={type} onClick={() => {list()}}>List</button>
   );  
   if (type === "delete")  return (
-    <button className={type} onClick={() => {remove(inputValue)}}>List</button>
+    <div className={type} onClick={() => {remove(inputValue)}}>🗑️</div>
   );
   
   if (type === "")  return (
