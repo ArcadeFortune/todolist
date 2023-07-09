@@ -12,22 +12,26 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchData() {
-    const data = await list();
+    let data = await list();
+    data.sort((a, b) => {
+      return a._id - b._id;
+    });
     setItems(data);
+    console.log(data);
     setIsLoading(false);
   }
 
   function changeInputValue(value) {
     setInputValue(value);
-  }  
+  }
+
+  function clearInputValue() {
+    setInputValue("");
+  }
 
   useEffect(() => {
     fetchData();
   }, []);
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>;
-  // }
 
   return (
     <div className="Main">
@@ -36,14 +40,17 @@ function App() {
       </div>
       <div className="body">
         <div className="todo">
-          <Textfield onInputValueChange={changeInputValue}></Textfield>
+          <Textfield
+            inputValue={inputValue}
+            onInputValueChange={changeInputValue}
+            clearInputValue={clearInputValue}
+          ></Textfield>
           <Button type={"add"} inputValue={inputValue}></Button>
         </div>
 
         <div className="todo-list">
-          {!isLoading && items.map((item) => (
-            <Todo key={item._id} task={item.task}></Todo>
-          ))}
+          {!isLoading &&
+            items.map((item) => <Todo key={item._id} task={item.task}></Todo>)}
         </div>
         <div className="todo-background">
           <img src={logo} className="logo" alt="logo" />

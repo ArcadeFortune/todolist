@@ -2,24 +2,23 @@ import React, { useState } from "react";
 import add from "../functions/add.js";
 import "../Styles/components.css";
 
-function Textfield({onInputValueChange}) {
+function Textfield({inputValue, onInputValueChange, clearInputValue}) {
 
-  const handleInputChange = (event) => {
-    onInputValueChange(event.target.value)
-  };
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       add(event.target.value);
+      clearInputValue();
     }
   };
 
   return (
     <input
+      value={inputValue}
       className="textfield"
       type="text"
       placeholder="New Task"
-      onChange={handleInputChange}
+      onChange={(event) => onInputValueChange(event.target.value)}
       onKeyPress={handleKeyPress}
     />
   );

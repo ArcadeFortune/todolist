@@ -1,12 +1,16 @@
 import add from '../functions/add.js'
 import list from '../functions/list.js'
+import remove from '../functions/remove.js'
 
 export default function Button({type, inputValue}) {
   if (type === "add")  return (
       <button className={type} onClick={() => {add(inputValue)}}>Add</button>
   );
   if (type === "list")  return (
-      <button className={type} onClick={async () => {list()}}>List</button>
+      <button className={type} onClick={() => {list()}}>List</button>
+  );  
+  if (type === "delete")  return (
+    <button className={type} onClick={() => {remove(inputValue)}}>List</button>
   );
   
   if (type === "")  return (
