@@ -44,6 +44,11 @@
   justify-content: center;
   align-items: baseline;
   text-shadow: 0px 0px 10px rgb(255, 255, 255);
+  transition: background-color 0.2s ease-out;
+}
+
+.remove:hover {
+  background-color: #ff0e24d4;;
 }
 
 .todo-row {

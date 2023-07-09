@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import useTaskManager from '../hooks/useTaskManager.js';
+import React, { useContext } from "react";
+import TaskContext from '../taskManager.js';
 import "../Styles/components.css";
 
 function Textfield({inputValue, onInputValueChange, clearInputValue}) {
-  const { addTask } = useTaskManager();
+  const { addTask } = useContext(TaskContext);
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {

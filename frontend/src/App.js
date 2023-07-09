@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import useTaskManager from "./hooks/useTaskManager";
+import React, { useState, useEffect, useContext } from "react";
+// import useTaskManager from "./hooks/useTaskManager";
+import TaskContext from "./taskManager";
 import Button from "./components/button";
 import Textfield from "./components/textfield";
 import Todo from "./components/todo";
@@ -7,12 +8,12 @@ import logo from "./logo.svg";
 import "./Styles/App.css";
 
 function App() {
-  const { updateTasks, getTasks } = useTaskManager();
-  const [items, setItems] = useState();
+  const { items, updateTasks } = useContext(TaskContext);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchData() {
+    setIsLoading(true);
     await updateTasks();
     setIsLoading(false);
   }
@@ -24,11 +25,7 @@ function App() {
   function clearInputValue() {
     setInputValue("");
   }
-
-  useEffect(() => {
-    console.log('test')
-  }, [getTasks()]);
-
+  
   useEffect(() => {
     fetchData();
   }, []);
@@ -39,19 +36,19 @@ function App() {
         <Button type={"list"}></Button>
       </div>
       <div className="body">
-        <button onClick={async () => await updateTasks()}>sdf</button>
+        <button onClick={async () => await updateTasks()}>updateTasks</button>
         <div className="todo">
           <Textfield
             inputValue={inputValue}
             onInputValueChange={changeInputValue}
             clearInputValue={clearInputValue}
           ></Textfield>
-          <Button type={"add"} inputValue={inputValue}></Button>
+          <Button type={"add"} inputValue={inputValue} ></Button>
         </div>
 
         <div className="todo-list">
           {!isLoading &&
-            getTasks().map((item) => <Todo key={item._id} task={item}></Todo>)}
+            items.map((item) => <Todo key={item._id} task={item}></Todo>)}
         </div>
         <div className="todo-background">
           <img src={logo} className="logo" alt="logo" />

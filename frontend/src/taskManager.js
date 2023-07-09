@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState, createContext } from "react";
 
-function useTaskManager() {
-  const [items, setItems] = useState();
+const TaskContext = createContext();
+
+export function TaskProvider({ children }) {
+  const [items, setItems] = useState([]);
 
   async function updateTasks() {
-    console.log("updating tasks...")
     let data = await listTasks();
     data.sort((a, b) => {
       return a._id - b._id;
@@ -17,7 +18,7 @@ function useTaskManager() {
   }
 
   async function listTasks() {
-    const url = process.env.REACT_APP_BACKEND_URL
+    const url = process.env.REACT_APP_BACKEND_URL;
     try {
       const response = await fetch(`${url}/tasks`, {
         method: "GET",
@@ -25,21 +26,21 @@ function useTaskManager() {
           "Content-Type": "application/json",
         },
       });
-      if (response.ok) {  
-        const data = await response.json()
-        return data
+      if (response.ok) {
+        const data = await response.json();
+        return data;
       } else {
         console.error("POST request failed");
-        return 'there is an error'
+        return "there is an error";
       }
     } catch (error) {
       console.error("Network error", error);
-      return 'there is a network error'
+      return "there is a network error";
     }
   }
 
   async function removeTask(id) {
-    const url = process.env.REACT_APP_BACKEND_URL
+    const url = process.env.REACT_APP_BACKEND_URL;
     try {
       const response = await fetch(`${url}/tasks/${id}`, {
         method: "DELETE",
@@ -47,29 +48,26 @@ function useTaskManager() {
           "Content-Type": "application/json",
         },
       });
-      if (response.ok) {  
-        const data = await response.json()
-        console.log(`removed task #${id} successfully`, data)
-        await updateTasks()
-        return data
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`removed task #${id} successfully`, data[0]);
+        await updateTasks();
       } else {
         console.error("POST request failed");
-        return 'there is an error'
       }
     } catch (error) {
       console.error("Network error", error);
-      return 'there is a network error'
     }
   }
 
   async function addTask(task) {
-    const url = process.env.REACT_APP_BACKEND_URL
+    const url = process.env.REACT_APP_BACKEND_URL;
     if (task === "") return;
     const newTask = {
-      _id: await fetch(`${url}/available_tasks`).then(res => res.json()),
+      _id: await fetch(`${url}/available_tasks`).then((res) => res.json()),
       task: task,
-    }
-  
+    };
+
     try {
       const response = await fetch(`${url}/tasks`, {
         method: "POST",
@@ -78,16 +76,15 @@ function useTaskManager() {
         },
         body: JSON.stringify(newTask),
       });
-  
-      if (response.ok) {  
-        // Handle successful response
-        console.log("added task successfully", await response.json());
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`added task #${data._id} successfully`, data);
+        await updateTasks();
       } else {
-        // Handle error response
         console.error("POST request failed");
       }
     } catch (error) {
-      // Handle network error
       console.error("Network error", error);
     }
   }
@@ -95,14 +92,23 @@ function useTaskManager() {
 
 
 
+  
+
   // use ctrl + click to navigate this file
-  return {
-    updateTasks,
-    getTasks,
-    listTasks,
-    addTask,
-    removeTask,
-  };
+  return (
+    <TaskContext.Provider
+      value={{
+        items,
+        updateTasks,
+        getTasks,
+        listTasks,
+        addTask,
+        removeTask,
+      }}
+    >
+      {children}
+    </TaskContext.Provider>
+  );
 }
 
-export default useTaskManager;
+export default TaskContext;

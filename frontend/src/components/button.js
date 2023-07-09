@@ -1,30 +1,17 @@
-import useTaskManager from '../hooks/useTaskManager.js';
+import { useContext } from 'react';
+import TaskContext from '../taskManager.js';
 
 export default function Button({type, inputValue}) {
-  const { updateTasks, listTasks, removeTask, addTask } = useTaskManager();
-  async function handleClick(command) {
-    switch (command) {
-      case "add":
-        addTask(inputValue);
-        break;
-      case "list":
-        listTasks();
-        break;
-      case "remove":
-        removeTask(inputValue);
-        break;
-      default:
-        console.log('something went wrong, the button type is unknown')
-    }
-  }
+  const { listTasks, removeTask, addTask } = useContext(TaskContext);
+
   if (type === "add")  return (
-      <button className={type} onClick={async () => {await handleClick("add")}}>Add</button>
+      <button className={type} onClick={async () => {await addTask(inputValue)}}>Add</button>
   );
   if (type === "list")  return (
-      <button className={type} onClick={async () => {await handleClick("list")}}>List</button>
+      <button className={type} onClick={async () => {await listTasks()}}>List</button>
   );  
   if (type === "remove")  return (
-    <div className={type} onClick={async () => {await handleClick("remove");}}>🗑️</div>
+    <div className={type} onClick={async () => {await removeTask(inputValue);}}>🗑️</div>
   );
   
   if (type === "")  return (
