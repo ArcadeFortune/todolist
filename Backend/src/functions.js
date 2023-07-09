@@ -1,11 +1,14 @@
 const withDatabase = require("./accessDB");
 
 async function findNextTask() {
-  let collectionSize = 0;
+  let collectionSize;
   await withDatabase(async (coll) => {
-    collectionSize = await coll.countDocuments();
+    collectionSize = await coll.aggregate([
+      { $group: { _id: null, maxId: { $max: '$_id' } } },
+      { $project: { _id: '$maxId' } }
+    ]).toArray()
   });
-  return collectionSize + 1;
+  return parseInt(collectionSize[0]._id) + 1;
 }
 
 async function ls(taskId) {

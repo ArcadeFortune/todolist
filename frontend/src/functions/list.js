@@ -9,7 +9,7 @@ export default async function list() {
     });
     if (response.ok) {  
       const data = await response.json()
-      console.log(data)
+      console.log("fetched tasks successfully", data)
       return data
     } else {
       console.error("POST request failed");

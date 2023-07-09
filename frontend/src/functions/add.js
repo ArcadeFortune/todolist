@@ -17,7 +17,7 @@ export default async function add(task) {
 
     if (response.ok) {  
       // Handle successful response
-      console.log("POST request successful", await response.json());
+      console.log("added task successfully", await response.json());
     } else {
       // Handle error response
       console.error("POST request failed");

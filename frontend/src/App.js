@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import list from "./functions/list";
+import useTaskManager from "./hooks/useTaskManager";
 import Button from "./components/button";
 import Textfield from "./components/textfield";
 import Todo from "./components/todo";
@@ -7,17 +7,13 @@ import logo from "./logo.svg";
 import "./Styles/App.css";
 
 function App() {
+  const { updateTasks, getTasks } = useTaskManager();
   const [items, setItems] = useState();
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchData() {
-    let data = await list();
-    data.sort((a, b) => {
-      return a._id - b._id;
-    });
-    setItems(data);
-    console.log(data);
+    await updateTasks();
     setIsLoading(false);
   }
 
@@ -33,12 +29,14 @@ function App() {
     fetchData();
   }, []);
 
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div className="Main">
       <div className="head">
         <Button type={"list"}></Button>
       </div>
       <div className="body">
+        <button onClick={async () => await updateTasks()}>sdf</button>
         <div className="todo">
           <Textfield
             inputValue={inputValue}
@@ -50,7 +48,7 @@ function App() {
 
         <div className="todo-list">
           {!isLoading &&
-            items.map((item) => <Todo key={item._id} task={item}></Todo>)}
+            getTasks().map((item) => <Todo key={item._id} task={item}></Todo>)}
         </div>
         <div className="todo-background">
           <img src={logo} className="logo" alt="logo" />

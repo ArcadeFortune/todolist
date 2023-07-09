@@ -1,16 +1,34 @@
 import add from '../functions/add.js'
 import list from '../functions/list.js'
 import remove from '../functions/remove.js'
+import useTaskManager from "../hooks/useTaskManager";
 
 export default function Button({type, inputValue}) {
+  const { updateTasks } = useTaskManager();
+  async function handleClick(command) {
+    switch (command) {
+      case "add":
+        add(inputValue);
+        break;
+      case "list":
+        list();
+        break;
+      case "remove":
+        remove(inputValue);
+        break;
+      default:
+        console.log('something went wrong, the button type is unknown')
+    }
+  }
   if (type === "add")  return (
-      <button className={type} onClick={() => {add(inputValue)}}>Add</button>
+      <button className={type} onClick={async () => {await handleClick("add")}}>Add</button>
   );
   if (type === "list")  return (
-      <button className={type} onClick={() => {list()}}>List</button>
+      <button className={type} onClick={async () => {await handleClick("list")}}>List</button>
   );  
-  if (type === "delete")  return (
-    <div className={type} onClick={() => {remove(inputValue)}}>🗑️</div>
+  if (type === "remove")  return (
+    <div className={type} onClick={async () => {await handleClick("remove");
+    setTimeout(async () => {console.log('HALLO')}, 2000)}}>🗑️</div>
   );
   
   if (type === "")  return (

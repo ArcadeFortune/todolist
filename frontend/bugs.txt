@@ -1,1 +1,2 @@
 using autoclicker on the add button destroys the backend
+/get_available_tasks doesnt truly return the next available task, bc its using the total size of the collection.

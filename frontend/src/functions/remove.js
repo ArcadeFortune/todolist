@@ -9,7 +9,7 @@ export default async function remove(_id) {
     });
     if (response.ok) {  
       const data = await response.json()
-      console.log(data)
+      console.log("deleted task successfully", data)
       return data
     } else {
       console.error("POST request failed");
