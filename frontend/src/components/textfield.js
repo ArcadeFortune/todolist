@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import add from "../functions/add.js";
+import useTaskManager from '../hooks/useTaskManager.js';
 import "../Styles/components.css";
 
 function Textfield({inputValue, onInputValueChange, clearInputValue}) {
-
+  const { addTask } = useTaskManager();
 
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      add(event.target.value);
+      addTask(event.target.value);
       clearInputValue();
     }
   };

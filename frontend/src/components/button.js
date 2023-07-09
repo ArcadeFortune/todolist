@@ -1,18 +1,17 @@
-import add from '../functions/add.js'
-import list from '../functions/list.js'
-import remove from '../functions/remove.js'
+import useTaskManager from '../hooks/useTaskManager.js';
 
 export default function Button({type, inputValue}) {
+  const { updateTasks, listTasks, removeTask, addTask } = useTaskManager();
   async function handleClick(command) {
     switch (command) {
       case "add":
-        add(inputValue);
+        addTask(inputValue);
         break;
       case "list":
-        list();
+        listTasks();
         break;
       case "remove":
-        remove(inputValue);
+        removeTask(inputValue);
         break;
       default:
         console.log('something went wrong, the button type is unknown')
