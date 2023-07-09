@@ -26,6 +26,10 @@ function App() {
   }
 
   useEffect(() => {
+    console.log('test')
+  }, [getTasks()]);
+
+  useEffect(() => {
     fetchData();
   }, []);
 

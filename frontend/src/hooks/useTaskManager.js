@@ -4,13 +4,12 @@ function useTaskManager() {
   const [items, setItems] = useState();
 
   async function updateTasks() {
-    console.log("button clicked");
+    console.log("updating tasks...")
     let data = await listTasks();
     data.sort((a, b) => {
       return a._id - b._id;
     });
     setItems(data);
-    console.log(data);
   }
 
   function getTasks() {
@@ -28,7 +27,6 @@ function useTaskManager() {
       });
       if (response.ok) {  
         const data = await response.json()
-        console.log("fetched tasks successfully", data)
         return data
       } else {
         console.error("POST request failed");
@@ -52,8 +50,7 @@ function useTaskManager() {
       if (response.ok) {  
         const data = await response.json()
         console.log(`removed task #${id} successfully`, data)
-        console.log("HALLO")
-        // await updateTasks()
+        await updateTasks()
         return data
       } else {
         console.error("POST request failed");

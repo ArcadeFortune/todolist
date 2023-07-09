@@ -11,8 +11,7 @@ async function findNextTask() {
 }
 
 async function ls(taskId) {
-  if (taskId) parseInt(taskId);
-
+  if (taskId) taskId = parseInt(taskId)
   let result = [];
   await withDatabase(async (coll) => {
     const find = await coll
@@ -37,6 +36,7 @@ async function mk(task, id) {
 }
 
 async function rm(id) {
+  console.log(await ls(id))
   console.log(id)
   let deletedTask = await ls(id)
   await withDatabase(async (coll) => {
