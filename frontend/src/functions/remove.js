@@ -1,7 +1,8 @@
-export default async function remove(_id) {
+export default async function remove(id) {
+
   const url = process.env.REACT_APP_BACKEND_URL
   try {
-    const response = await fetch(`${url}/tasks/${_id}`, {
+    const response = await fetch(`${url}/tasks/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -10,6 +11,8 @@ export default async function remove(_id) {
     if (response.ok) {  
       const data = await response.json()
       console.log("deleted task successfully", data)
+      console.log("HALLO")
+      // await updateTasks()
       return data
     } else {
       console.error("POST request failed");

@@ -1,10 +1,8 @@
 import add from '../functions/add.js'
 import list from '../functions/list.js'
 import remove from '../functions/remove.js'
-import useTaskManager from "../hooks/useTaskManager";
 
 export default function Button({type, inputValue}) {
-  const { updateTasks } = useTaskManager();
   async function handleClick(command) {
     switch (command) {
       case "add":
@@ -27,8 +25,7 @@ export default function Button({type, inputValue}) {
       <button className={type} onClick={async () => {await handleClick("list")}}>List</button>
   );  
   if (type === "remove")  return (
-    <div className={type} onClick={async () => {await handleClick("remove");
-    setTimeout(async () => {console.log('HALLO')}, 2000)}}>🗑️</div>
+    <div className={type} onClick={async () => {await handleClick("remove");}}>🗑️</div>
   );
   
   if (type === "")  return (

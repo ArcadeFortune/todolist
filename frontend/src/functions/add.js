@@ -2,7 +2,7 @@ export default async function add(task) {
   const url = process.env.REACT_APP_BACKEND_URL
   if (task === "") return;
   const newTask = {
-    _id: `${await fetch(`${url}/available_tasks`).then(res => res.json())}`,
+    _id: await fetch(`${url}/available_tasks`).then(res => res.json()),
     task: task,
   }
 

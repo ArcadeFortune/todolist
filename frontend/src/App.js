@@ -29,7 +29,6 @@ function App() {
     fetchData();
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
   return (
     <div className="Main">
       <div className="head">
