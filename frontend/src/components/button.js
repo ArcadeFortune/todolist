@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import TaskContext from '../taskManager.js';
 
-export default function Button({type, inputValue}) {
+export default function Button({type, inputValue, clearInputValue}) {
   const { listTasks, removeTask, addTask } = useContext(TaskContext);
 
   if (type === "add")  return (
-      <button className={type} onClick={async () => {await addTask(inputValue)}}>Add</button>
+      <button className={type} onClick={async () => {await addTask(inputValue); clearInputValue()}}>Add</button>
   );
   if (type === "list")  return (
       <button className={type} onClick={async () => {await listTasks()}}>List</button>

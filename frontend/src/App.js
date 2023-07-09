@@ -42,7 +42,7 @@ function App() {
             onInputValueChange={changeInputValue}
             clearInputValue={clearInputValue}
           ></Textfield>
-          <Button type={"add"} inputValue={inputValue} ></Button>
+          <Button type={"add"} inputValue={inputValue} clearInputValue={clearInputValue}></Button>
         </div>
 
         <div className="todo-list">
