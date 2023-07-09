@@ -25,7 +25,7 @@ function App() {
   function clearInputValue() {
     setInputValue("");
   }
-  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -36,7 +36,6 @@ function App() {
         <Button type={"list"}></Button>
       </div>
       <div className="body">
-        <button onClick={async () => await updateTasks()}>updateTasks</button>
         <div className="todo">
           <Textfield
             inputValue={inputValue}
