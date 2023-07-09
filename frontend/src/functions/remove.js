@@ -1,5 +1,4 @@
 export default async function remove(id) {
-
   const url = process.env.REACT_APP_BACKEND_URL
   try {
     const response = await fetch(`${url}/tasks/${id}`, {
@@ -10,7 +9,7 @@ export default async function remove(id) {
     });
     if (response.ok) {  
       const data = await response.json()
-      console.log("deleted task successfully", data)
+      console.log(`removed task #${id} successfully`, data)
       console.log("HALLO")
       // await updateTasks()
       return data

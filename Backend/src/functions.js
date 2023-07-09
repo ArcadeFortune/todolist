@@ -37,9 +37,11 @@ async function mk(task, id) {
 }
 
 async function rm(id) {
+  console.log(id)
   let deletedTask = await ls(id)
   await withDatabase(async (coll) => {
-    await coll.deleteOne({ _id: id });
+    console.log(id)
+    await coll.deleteOne({ _id: parseInt(id) });
   });
   return deletedTask;
 }
