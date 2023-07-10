@@ -9,8 +9,8 @@ import "./Styles/App.css";
 
 function App() {
   const { items, updateTasks } = useContext(TaskContext);
-  const [inputValue, setInputValue] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [inputValue, setInputValue] = useState(""); // new task to add
+  const [isLoading, setIsLoading] = useState(true); // loading hint
 
   async function fetchData() {
     setIsLoading(true);
@@ -25,7 +25,7 @@ function App() {
   function clearInputValue() {
     setInputValue("");
   }
-
+  
   useEffect(() => {
     fetchData();
   }, []);

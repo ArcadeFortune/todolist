@@ -51,15 +51,34 @@
   background-color: #ff0e24d4;;
 }
 
+.edit {
+  -webkit-user-select: text;
+  user-select: text;
+  width: 20em;
+  height: 1.5em;
+  padding: 0.8em;
+  background-color: #ffffff;
+  color: #282c34;
+  cursor: pointer;
+  border: 1px solid #FFFFFF;
+  border-radius: 10px 0px 0px 10px;
+}
+
 .todo-row {
   z-index: 2;
   margin: 0.4em;
   display: flex;
+  flex-direction: column;
   align-items: center;
   transition: transform 0.1s ease-out;
 }
 
-.todo-item {  
+.todo-bundle {
+  display: flex;
+  align-items: center;
+}
+
+.todo-item {
   -webkit-user-select: text;
   user-select: text;
   width: 20em;
