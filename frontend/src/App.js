@@ -33,7 +33,6 @@ function App() {
   return (
     <div className="Main">
       <div className="head">
-        <Button type={"list"}></Button>
       </div>
       <div className="body">
         <div className="todo">
