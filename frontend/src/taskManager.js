@@ -30,7 +30,7 @@ export function TaskProvider({ children }) {
         const data = await response.json();
         return data;
       } else {
-        console.error("POST request failed");
+        console.error("GET request failed");
         return "there is an error";
       }
     } catch (error) {
@@ -82,7 +82,7 @@ export function TaskProvider({ children }) {
         console.log(`removed task #${id} successfully`, data[0]);
         await updateTasks();
       } else {
-        console.error("POST request failed");
+        console.error("DELETE request failed");
       }
     } catch (error) {
       console.error("Network error", error);
@@ -90,7 +90,27 @@ export function TaskProvider({ children }) {
   }
 
   async function editTask(task) {
-    console.log(task)
+    const url = process.env.REACT_APP_BACKEND_URL;
+    try {
+      const response = await fetch(`${url}/tasks/${task._id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(task),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`edited task #${task._id} successfully`, data)
+        return data;
+      } else {
+        console.error("PATCH request failed");
+        return "there is an error";
+      }
+    } catch (error) {
+      console.error("Network error", error);
+      return "there is a network error";
+    }
   }
 
   
