@@ -19,11 +19,6 @@ app.get("/", async (req, res) => {
   res.json({ message: "Welcome to ArcadeFortune application!!!\nWatch Date A Live"});
 });
 
-// get available tasks
-app.get('/available_tasks', async (req, res) => {
-  res.json(await tasks.findNextTask())
-})
-
 // get tasks
 app.get('/tasks', async (req, res) => {
   res.json(await tasks.ls())
@@ -35,8 +30,15 @@ app.get('/tasks/:id', async (req, res) => {
   res.json(await tasks.ls(taskId))
 })
 
-// get task by ID
+// add task by ID
 app.post('/tasks', async (req, res) => {
+  res.json(await tasks.mk(req.body.task, req.body._id))
+})
+
+app.patch('/tasks/:id', async (req, res) => {
+  const taskId = req.params.id
+  // remove the task and add it again
+  await tasks.rm(taskId)
   res.json(await tasks.mk(req.body.task, req.body._id))
 })
 
@@ -44,6 +46,11 @@ app.post('/tasks', async (req, res) => {
 app.delete('/tasks/:id', async (req, res) => {
   const taskId = req.params.id
   res.json(await tasks.rm(taskId))
+})
+
+// get available tasks
+app.get('/available_tasks', async (req, res) => {
+  res.json(await tasks.findNextTask())
 })
 
 
