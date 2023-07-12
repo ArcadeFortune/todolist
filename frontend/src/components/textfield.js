@@ -19,7 +19,7 @@ function Textfield({inputValue, onInputValueChange, clearInputValue}) {
       type="text"
       placeholder="New Task"
       onChange={(event) => onInputValueChange(event.target.value)}
-      onKeyPress={handleKeyPress}
+      onKeyDown={handleKeyPress}
     />
   );
 }

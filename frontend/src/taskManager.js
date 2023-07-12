@@ -39,27 +39,6 @@ export function TaskProvider({ children }) {
     }
   }
 
-  async function removeTask(id) {
-    const url = process.env.REACT_APP_BACKEND_URL;
-    try {
-      const response = await fetch(`${url}/tasks/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(`removed task #${id} successfully`, data[0]);
-        await updateTasks();
-      } else {
-        console.error("POST request failed");
-      }
-    } catch (error) {
-      console.error("Network error", error);
-    }
-  }
-
   async function addTask(task) {
     const url = process.env.REACT_APP_BACKEND_URL;
     if (task === "") return;
@@ -89,8 +68,30 @@ export function TaskProvider({ children }) {
     }
   }
 
+  async function removeTask(id) {
+    const url = process.env.REACT_APP_BACKEND_URL;
+    try {
+      const response = await fetch(`${url}/tasks/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`removed task #${id} successfully`, data[0]);
+        await updateTasks();
+      } else {
+        console.error("POST request failed");
+      }
+    } catch (error) {
+      console.error("Network error", error);
+    }
+  }
 
-
+  async function editTask(task) {
+    console.log(task)
+  }
 
   
 
@@ -104,6 +105,7 @@ export function TaskProvider({ children }) {
         listTasks,
         addTask,
         removeTask,
+        editTask,
       }}
     >
       {children}

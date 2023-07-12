@@ -1,57 +1,63 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import TaskContext from '../taskManager.js';
 import Button from "./button.js";
 
 export default function Todo({ task }) {
-  const [toShowMenu, setToShowMenu] = useState(false);
+  const { editTask } = useContext(TaskContext);
   const [newContent, setNewContent] = useState(task.task);
+  const [isEditing, setIsEditing] = useState(false);
 
   const menuRef = useRef(null);
 
   useEffect(() => {
     function handleOutsideClick(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+      if (menuRef.current && !menuRef.current.contains(event.target) ) {
         //lets hope to 3.5 this works
-        // setToShowMenu(!toShowMenu);
+        setIsEditing(false);
       }
     }
 
-    if (toShowMenu) {
+    if (isEditing) {
       document.addEventListener("click", handleOutsideClick);
     }
 
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
-  }, [toShowMenu]);
+  }, [isEditing]);
 
   function handeMouseClick(event) {
-    setToShowMenu(true);
-    console.log("show menu");
+      setIsEditing(true);
+    }
+    
+    function handleChange(event) {
+    setNewContent(event.target.value);
   }
 
-  function handleChange(event) {
-    setNewContent(event.target.textContent);
-  }
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      editTask({_id: task._id, task: newContent});
+    }
+  };
 
   return (
     <div className="todo-row">
       <div className="todo-bundle">
-        <div
+        <input
+          ref={menuRef}
+          type="text"
           className="todo-item"
-          onClick={handeMouseClick}
           onInput={handleChange}
-          contentEditable={true}
-        >
-          {newContent}
-        </div>
-        <Button type={"remove"} inputValue={task._id}></Button>
+          onKeyDown={handleKeyPress}
+          value={newContent}
+          onClick={handeMouseClick}
+        />
+        {isEditing ? (
+          <Button type={"confirm"} inputValue={{_id: task._id, task: newContent}}></Button>
+        ) : (
+          <Button type={"remove"} inputValue={task._id}></Button>
+        )}
       </div>
-
-      {toShowMenu && (
-        <div ref={menuRef} className="edit">
-          <input type="text" placeholder="Enter text" />
-        </div>
-      )}
     </div>
   );
 }
