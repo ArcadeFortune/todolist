@@ -33,6 +33,8 @@ function App() {
   return (
     <div className="Main">
       <div className="head">
+        <h1 className="title">Todo List</h1>
+        <span>by ArcadeFortune</span>
       </div>
       <div className="body">
         <div className="todo">
