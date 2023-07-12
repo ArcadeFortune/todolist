@@ -37,6 +37,7 @@ export default function Todo({ task }) {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       editTask({_id: task._id, task: newContent});
+      setIsEditing(false);
     }
   };
 
