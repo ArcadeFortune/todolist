@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-backend
+  labels:
+    app: todo-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:
+      containers:
+      - name: todo-backend
+        image: ghcr.io/arcadefortune/backend:v1.2
+        ports:
+        - containerPort: 6969
+        env:        
+        - name: FRONTEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: todo-backend-config
+              key: FRONTEND_URL
+        - name: ATLAS_URI
+          valueFrom:
+            configMapKeyRef:
+              name: todo-backend-config
+              key: ATLAS_URI
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-backend
+spec:
+  selector:
+    app: todo-backend
+  ports:
+    - protocol: TCP
+      port: 6969
+      targetPort: 6969
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: todo-backend
+spec:
+  port:
+    targetPort: 6969 
+  to:
+    kind: Service
+    name: todo-backend
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

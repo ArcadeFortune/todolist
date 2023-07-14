@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-frontend
+  labels:
+    app: todo-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-frontend
+  template:
+    metadata:
+      labels:
+        app: todo-frontend
+    spec:
+      containers:
+      - name: todo-frontend
+        image: ghcr.io/arcadefortune/frontend:v1.6
+        ports:
+        - containerPort: 8082
+        env:
+        - name: REACT_APP_BACKEND_URL
+          valueFrom:
+            configMapKeyRef:
+              name: todo-frontend-config
+              key: REACT_APP_BACKEND_URL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-frontend
+spec:
+  selector:
+    app: todo-frontend
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 8082
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: todo-frontend
+spec:
+  port:
+    targetPort: 8082 
+  to:
+    kind: Service
+    name: todo-frontend
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
