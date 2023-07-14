@@ -22,7 +22,7 @@ COPY ./entrypoint.sh .
 COPY .env .
 
 RUN apk add --no-cache bash
+RUN chmod -R 777 /usr/share/nginx/html
 
-RUN chmod +x entrypoint.sh
 
 CMD ["/bin/bash", "-c", "/usr/share/nginx/html/entrypoint.sh && nginx -g \"daemon off;\""]
