@@ -1,9 +1,9 @@
 # Todolist
-A list to manage your personal tasks, who would've thought.
+A list to manage your personal t  asks, who would've thought.
 
 ### How to use
-Open my website on [not implemented yet](https://example.com) and start right away! <br/>
-When my free 30-days trial on openshift ends, try my [vercel link](https://example.com) instead
+Open my [website](https://todo-frontend-arcadefortune-dev.apps.sandbox-m3.1530.p1.openshiftapps.com) and start right away! <br/>
+When my free 30-days trial on openshift ends, try my [not implemented yet](https://example.com) instead
 
 ### Features
 You can add, edit, and remove tasks.
@@ -16,7 +16,7 @@ I am well aware of the infinite amount of other, better todolists, my goal is to
 ```
 git clone https://github.com/arcadefortune/todolist
 ```
-2. Change Directory
+2. Change directory
 ```
 cd todolist
 ```
@@ -24,7 +24,7 @@ cd todolist
 ```
 docker compose up
 ```
-4. Happy Hacking!
+4. Happy hacking!
 ```
 code .
 ```
