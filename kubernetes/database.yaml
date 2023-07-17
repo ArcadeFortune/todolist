@@ -29,11 +29,12 @@ spec:
               name: todo-database-creds
               key: password
         volumeMounts:
-          - name: mongodb-data
+          - name: todo-database-data
             mountPath: /data/db
       volumes:
-        - name: mongodb-data
-          emptyDir: {}
+        - name: todo-database-data
+          persistentVolumeClaim:
+            claimName: todo-database-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -46,4 +47,15 @@ spec:
     - protocol: TCP
       port: 27017
       targetPort: 27017 
-  type: ClusterIP   
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: todo-database-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce 
+  resources:
+    requests:
+      storage: 1Gi
