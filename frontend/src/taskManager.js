@@ -4,6 +4,7 @@ const TaskContext = createContext();
 
 export function TaskProvider({ children }) {
   const [items, setItems] = useState([]);
+  const url = window._env_.REACT_APP_BACKEND_URL
 
   async function updateTasks() {
     let data = await listTasks();
@@ -18,7 +19,6 @@ export function TaskProvider({ children }) {
   }
 
   async function listTasks() {
-    const url = window._env_.REACT_APP_BACKEND_URL;
     try {
       const response = await fetch(`${url}/tasks`, {
         method: "GET",
@@ -40,7 +40,6 @@ export function TaskProvider({ children }) {
   }
 
   async function addTask(task) {
-    const url = window._env_.REACT_APP_BACKEND_URL;
     if (task === "") return;
     const newTask = {
       _id: await fetch(`${url}/available_tasks`).then((res) => res.json()),
@@ -69,7 +68,6 @@ export function TaskProvider({ children }) {
   }
 
   async function removeTask(id) {
-    const url = window._env_.REACT_APP_BACKEND_URL;
     try {
       const response = await fetch(`${url}/tasks/${id}`, {
         method: "DELETE",
@@ -90,7 +88,6 @@ export function TaskProvider({ children }) {
   }
 
   async function editTask(task) {
-    const url = window._env_.REACT_APP_BACKEND_URL;
     try {
       const response = await fetch(`${url}/tasks/${task._id}`, {
         method: "PATCH",
