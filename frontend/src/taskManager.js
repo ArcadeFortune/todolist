@@ -1,10 +1,10 @@
-import { useEffect, useState, createContext } from "react";
+import { useState, createContext } from "react";
 
 const TaskContext = createContext();
 
 export function TaskProvider({ children }) {
   const [items, setItems] = useState([]);
-  const url = window._env_.REACT_APP_BACKEND_URL
+  const url = window._env_.REACT_APP_BACKEND_URL;
 
   async function updateTasks() {
     let data = await listTasks();
@@ -19,6 +19,12 @@ export function TaskProvider({ children }) {
   }
 
   async function listTasks() {
+    if (JSON.parse(localStorage.getItem('localStorage')))
+      try{ return JSON.parse(localStorage.getItem("list"));}
+      catch{
+        localStorage.clear()
+        return JSON.parse(localStorage.getItem("list"));
+      }
     try {
       const response = await fetch(`${url}/tasks`, {
         method: "GET",
@@ -28,6 +34,7 @@ export function TaskProvider({ children }) {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         return data;
       } else {
         console.error("GET request failed");
@@ -41,12 +48,21 @@ export function TaskProvider({ children }) {
 
   async function addTask(task) {
     if (task === "") return;
-    const newTask = {
-      _id: await fetch(`${url}/available_tasks`).then((res) => res.json()),
-      task: task,
-    };
 
+    //use localStorage
+    if (JSON.parse(localStorage.getItem('localStorage'))) {
+      let list = await JSON.parse(localStorage.getItem("list")) //get the list
+      list.push({_id: list.length + 1, task: task}) //add to the list
+      localStorage.setItem("list", JSON.stringify(list)) //save the list
+      console.log(`added task #${list.length + 1} successfully`, list[list.length - 1]);
+      await updateTasks();
+      return;
+    }
     try {
+      const newTask = {
+        _id: await fetch(`${url}/available_tasks`).then((res) => res.json()),
+        task: task,
+      };
       const response = await fetch(`${url}/tasks`, {
         method: "POST",
         headers: {
@@ -68,6 +84,15 @@ export function TaskProvider({ children }) {
   }
 
   async function removeTask(id) {
+    if (JSON.parse(localStorage.getItem('localStorage'))) {
+      let list = await JSON.parse(localStorage.getItem("list")) //get the list
+      const taskToRemove = list.find(task => task._id === id); //for logging purposes
+      const newList = list.filter(task => task._id !== id); //remove from the list
+      localStorage.setItem("list", JSON.stringify(newList)) //save the list
+      console.log(`removed task #${id} successfully`, taskToRemove);
+      await updateTasks();
+      return;
+    }
     try {
       const response = await fetch(`${url}/tasks/${id}`, {
         method: "DELETE",
@@ -88,6 +113,15 @@ export function TaskProvider({ children }) {
   }
 
   async function editTask(task) {
+    if (JSON.parse(localStorage.getItem('localStorage'))) {
+      let list = await JSON.parse(localStorage.getItem("list")) //get the list
+      const taskToEdit = list.findIndex(atask => atask._id === task._id) //get the specific task index
+      list[taskToEdit] = task
+      localStorage.setItem("list", JSON.stringify(list)) //save the list
+      
+      console.log(`edited task #${task._id} successfully`, task);
+      return;
+    }
     try {
       const response = await fetch(`${url}/tasks/${task._id}`, {
         method: "PATCH",
@@ -98,8 +132,7 @@ export function TaskProvider({ children }) {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(`edited task #${task._id} successfully`, data)
-        return data;
+        console.log(`edited task #${task._id} successfully`, data);
       } else {
         console.error("PATCH request failed");
         return "there is an error";
@@ -109,8 +142,6 @@ export function TaskProvider({ children }) {
       return "there is a network error";
     }
   }
-
-  
 
   // use ctrl + click to navigate this file
   return (

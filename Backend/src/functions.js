@@ -36,6 +36,7 @@ async function mk(task, id) {
 }
 
 async function rm(id) {
+  console.log('DELETING  TASK====================')
   console.log(await ls(id))
   console.log(id)
   let deletedTask = await ls(id)

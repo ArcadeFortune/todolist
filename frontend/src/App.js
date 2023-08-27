@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-// import useTaskManager from "./hooks/useTaskManager";
 import TaskContext from "./taskManager";
 import Button from "./components/button";
 import Textfield from "./components/textfield";
@@ -27,8 +26,28 @@ function App() {
   }
   
   useEffect(() => {
-    fetchData();
+    ping();
   }, []);
+  async function ping() {
+    try {
+      console.log("pinging...");
+      const response = await fetch(`${window._env_.REACT_APP_BACKEND_URL}/tasks`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        localStorage.setItem("localStorage", false);
+        fetchData();
+        console.log("Using database");
+      }
+    } catch {
+      console.log("Using localStorage");
+      fetchData();
+    }
+  }
+  
 
   return (
     <div className="Main">
