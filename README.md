@@ -1,5 +1,5 @@
 # Todolist
-A list to manage your personal t  asks, who would've thought.
+A list to manage your personal tasks, who would've thought.
 
 ### How to use
 Open my [website](https://todo-frontend-arcadefortune-dev.apps.sandbox-m3.1530.p1.openshiftapps.com) and start right away! <br/>
